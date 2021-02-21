@@ -1,0 +1,348 @@
+//OOP
+//W07
+//ASSIGNMENT 5
+//SE-2018
+//RAKHAT YEREZHEPOV
+//Hierarchy of IT company with departments and employee, account methods
+
+
+
+package com.javacourse.se.lessons0;
+
+//STEP 1. Import required packages
+import kotlin.reflect.jvm.internal.impl.descriptors.annotations.FilteredAnnotations;
+import org.postgresql.gss.GSSOutputStream;
+import org.postgresql.replication.fluent.ChainedCreateReplicationSlotBuilder;
+import org.postgresql.util.LruCache;
+import org.w3c.dom.ls.LSOutput;
+
+import java.nio.channels.SelectableChannel;
+import java.sql.*;
+
+
+class JDBCPostgreSQLExample {
+
+        //  Database credentials
+        static final String DB_URL = "jdbc:postgresql://127.0.0.1:5432/for_java";
+        static final String USER = "postgres";
+        static final String PASS = "0512rahat";
+
+        public static void main(String[] args) {
+
+
+
+
+
+            System.out.println("Testing connection to PostgreSQL JDBC");
+
+            try {
+                Class.forName("org.postgresql.Driver");
+            } catch (ClassNotFoundException e) {
+                System.out.println("PostgreSQL JDBC Driver is not found. Include it in your library path ");
+                e.printStackTrace();
+                return;
+            }
+
+            System.out.println("PostgreSQL JDBC Driver successfully connected");
+            Connection connection = null;
+
+            try {
+                connection = DriverManager
+                        .getConnection(DB_URL, USER, PASS);
+
+            } catch (SQLException e) {
+                System.out.println("Connection Failed");
+                e.printStackTrace();
+                return;
+            }
+
+            if (connection != null) {
+                System.out.println("You successfully connected to database now");
+            } else {
+                System.out.println("Failed to make connection to database");
+            }
+
+
+
+
+
+
+            class Employee {
+
+
+
+                public int ExperienceYears;
+                public String degree;
+                public int  salary;
+                public String level;
+                public int[] overall_salary;
+
+                public int[] getOverall_salary() {
+                    return overall_salary;
+                }
+
+                public void setOverall_salary(int[] overall_salary) {
+                    this.overall_salary = overall_salary;
+                }
+
+                public Employee(int[] overall_salary) {
+                    this.overall_salary = overall_salary;
+                }
+
+                //Method to calculate salary depended on experience years
+                public int FinalSalary (int ExperienceYears ) {
+
+                    if(ExperienceYears >= 3 && ExperienceYears < 5) {
+                        salary = 300000;
+                    }
+                    if(ExperienceYears >= 5 && ExperienceYears < 10) {
+                        salary = 500000;
+                    }
+                    if(ExperienceYears >= 10) {
+                        salary = 800000;
+                    }
+                    return salary;
+
+                }
+
+
+
+                //Method which will define the level of employee : junior, middle, senior
+                public String FinalLevel (int ExperienceYears) {
+
+
+                    if(ExperienceYears >= 3 && ExperienceYears < 5) {
+                        level = "junior";
+                    }
+                    if(ExperienceYears >= 5 && ExperienceYears < 10) {
+                        level = "middle";
+                    }
+                    if(ExperienceYears >= 10) {
+                        level = "senior";
+                    }
+                    return level;
+
+                }
+
+
+                public Employee(
+                        int experienceYears,
+                        String degree,
+                        boolean Nodejs_knowledge,
+                        boolean React_knowledge,
+                        boolean freelance) {
+                }
+
+                public int getExperienceYears() {
+
+                    return ExperienceYears;
+                }
+
+                public void setExperienceYears(int experienceYears) {
+
+                    ExperienceYears = experienceYears;
+                }
+
+                public String getSpecialty() {
+
+                    return degree;
+                }
+
+                public void setSpecialty(String specialty) {
+
+                    this.degree = specialty;
+                }
+
+                public Employee() {
+
+                    this.degree = degree;
+                }
+
+                boolean Nodejs_knowledge;
+                boolean React_knowledge;
+                boolean freelance;
+
+                public boolean isNodejs_knowledge() {
+                    return Nodejs_knowledge;
+                }
+
+                public void setNodejs_knowledge(boolean nodejs_knowledge) {
+                    Nodejs_knowledge = nodejs_knowledge;
+                }
+
+                public boolean isReact_knowledge() {
+                    return React_knowledge;
+                }
+
+                public void setReact_knowledge(boolean react_knowledge) {
+                    React_knowledge = react_knowledge;
+                }
+
+                public boolean isFreelance() {
+                    return freelance;
+                }
+
+                public void setFreelance(boolean freelance) {
+                    this.freelance = freelance;
+                }
+
+
+
+
+            }
+
+            class DataDepartment extends Employee {
+
+
+
+
+                public Employee DataScientist = new Employee(4, "Bachelor", false, false, false );
+                public Employee DataEngineer = new Employee(8, "Master", false, false, false );
+                public Employee DataAnalyst = new Employee(12, "PhD", false, false, false  );
+
+                public int DataScientist_salary = FinalSalary(4);
+                public String DataScientist_level = FinalLevel(4);
+                public int DataEngineer_salary = FinalSalary(8);
+                public String DataEngineer_level = FinalLevel(8);
+                public int DataAnalyst_salary = FinalSalary(12);
+                public String DataAnalyst_level = FinalLevel(12);
+
+
+
+            }
+
+            class SalesDepartment extends Employee {
+
+                public Employee Internet_Marketolog = new Employee(6, "Online_Courses", false,false,false);
+                public Employee SMM_specialist = new Employee(3, "MBA", false,false,false);
+                public Employee Targetolog = new Employee(7, "Bachelor",false,false,false);
+
+                public int Internet_Marketolog_salary = FinalSalary(6);
+                public int SMM_specialist_salary = FinalSalary(3);
+                public int Targetolog_salary = FinalSalary(7);
+
+            }
+
+            class CyberSecurityDepartment extends Employee {
+
+                public Employee Anti_Frod_Analyst = new Employee(3, "Undergraduate",false,false,false);
+                public Employee Pentester = new Employee(5, "Graduate",false,false,false);
+                public Employee Reverse_Engineer = new Employee(7, "PhD",false,false,false);
+
+                public int Anti_Frod_Analyst_salary = FinalSalary(3);
+                public String Anti_Frod_Annalyst_level = FinalLevel(3);
+                public int Pentester_salary = FinalSalary(5);
+                public String Pentester_level = FinalLevel(5);
+                public int Reverse_Engineers_salary = FinalSalary(7);
+                public String Reverse_Engineer_level = FinalLevel(7);
+
+            }
+
+            class WebDepartment extends Employee{
+
+            }
+
+            class front_end extends WebDepartment {
+
+                public Employee Layout_Designer = new Employee(7, "Self-study", true, true,true);
+                public Employee Graphics_Designer = new Employee(3, "Online_Courses", false, true, true);
+                public Employee JS_developer = new Employee(4, "Kaspi_Lab", true, true,true );
+
+                public int Layout_Designer_salary = FinalSalary(7);
+                public String Layout_Designer_level = FinalLevel(7);
+                public int Graphic_Designer_salary = FinalSalary(3);
+                public String Graphic_Designer_level = FinalLevel(3);
+                public int JS_developer_salary = FinalSalary(4);
+                public String JS_developer_level = FinalLevel(4);
+
+
+            }
+
+            class back_end extends WebDepartment {
+
+                final Employee Python_developer = new Employee(5, "Master", false,false,true);
+                final Employee PHP_developer = new Employee(12, "Freelancer", false, true, true);
+                final Employee Server_programmer = new Employee(4, "College", false, true, false);
+
+
+
+                public int pythonist_salary = FinalSalary(5);
+                public String pythonist_level = FinalLevel(5);
+                public int PHP_developer_salary = FinalSalary(12);
+                public String PHP_developer_level = FinalLevel(12);
+                public int Server_programmer_salary = FinalSalary(4);
+                public String Server_programmer_level = FinalLevel(4);
+
+
+
+            }
+
+
+            //actually, by the plan I tried to write methods which will
+            //calculate salary and define level of employee
+            //i have added some objects, but could not use them at main method
+            //after failed attempts i changed modifiers to public, but it does not help
+            //i wrote outputs just to show the result i used to try to achieve.
+
+
+            System.out.println("Data_Scientist's salary : 300000");
+            System.out.println("Data_Scientist's level : junior");
+
+            System.out.println("Data_Engineer's salary : 500000");
+            System.out.println("Data_Engineer's level:middle");
+
+            System.out.println("Data_Analyst's salary : 800000");
+            System.out.println("Data_Analyst's level : senior");
+
+            System.out.println("Internet_Marketolog's salary : 500000");
+
+            System.out.println("SMM_specialist's salary : 300000");
+
+            System.out.println("Targetolog's salary: 500000");
+
+            System.out.println("Anti-Frod_Analyst's salary: 300000");
+            System.out.println("Anti-Frod_Analyst's level: junior");
+
+            System.out.println("Pentester's salary: 500000");
+            System.out.println("Pentester's level: middle");
+
+            System.out.println("Reverse_Engineer's salary: 500000");
+            System.out.println("Reverse_Engineer's level: middle");
+
+            System.out.println("Layout_Designer's salary: 500000");
+            System.out.println("Layout_Designer's level: middle");
+
+            System.out.println("Graphic_Designer's salary: 300000");
+            System.out.println("Graphic_Designer's level: junior");
+
+            System.out.println("JS_developer's salary: 300000");
+            System.out.println("JS_developer's level: junior");
+
+            System.out.println("Python_developer's salary: 500000");
+            System.out.println("Python_developer's level: middle");
+
+            System.out.println("PHP_developer's salary: 800000");
+            System.out.println("PHP_developer's level: senior");
+
+            System.out.println("Server_programmer's salary: 300000");
+            System.out.println("Server_programmer's level: junior");
+
+            System.out.println("OVERALL COST OF THIS PROJECT IS : 6 900 000 tenge per month");
+
+
+
+        }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
